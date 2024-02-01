@@ -77,7 +77,7 @@
               *ngIf="this.elementType !== 'svg'"
               mat-raised-button
               color="primary"
-              (click)="saveAsImage(parent)"
+              (click)="saveAsImage(parent,'1')"
             >
               Download QR Code Image
             </button>
@@ -186,54 +186,8 @@ export class AppModule {{ "{" }} }</pre
                 [(ngModel)]="qrdata"
               />
             </mat-form-field>
-
-            <section>
-              <div class="button-label">Or set:</div>
-              <div class="button-row">
-                <mat-button-toggle-group
-                  name="qrdata"
-                  aria-label="qrdata"
-                  [(ngModel)]="qrdata"
-                  selected="qrdata"
-                >
-                  <mat-button-toggle
-                    value="https://github.com/Cordobo/angularx-qrcode"
-                    >URL</mat-button-toggle
-                  >
-                  <mat-button-toggle value="Peter Parker"
-                    >Peter Parker</mat-button-toggle
-                  >
-                  <mat-button-toggle value="42">42</mat-button-toggle>
-                  <mat-button-toggle value=""
-                    >"" (empty string)</mat-button-toggle
-                  >
-                </mat-button-toggle-group>
-              </div>
-            </section>
           </form>
 
-          <mat-divider></mat-divider>
-
-          <h4>Format</h4>
-          <section>
-            <div class="button-label">elementType:</div>
-            <div class="button-row">
-              <mat-button-toggle-group
-                name="elementType"
-                aria-label="Format (elementType)"
-                [(ngModel)]="elementType"
-                selected="elementType"
-                (change)="setImageVisibility(elementType === 'canvas')"
-              >
-                <mat-button-toggle value="canvas"
-                  >canvas (Default)</mat-button-toggle
-                >
-                <mat-button-toggle value="img">img</mat-button-toggle>
-                <mat-button-toggle value="url">url</mat-button-toggle>
-                <mat-button-toggle value="svg">svg</mat-button-toggle>
-              </mat-button-toggle-group>
-            </div>
-          </section>
           <mat-divider></mat-divider>
 
           <h4>ErrorCorrectionLevel</h4>

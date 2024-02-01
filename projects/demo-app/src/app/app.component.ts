@@ -1,10 +1,8 @@
-import { Component } from "@angular/core"
+import { Component, OnInit, ViewChild } from "@angular/core"
 import { MatSnackBar } from "@angular/material/snack-bar"
 import { SafeUrl } from "@angular/platform-browser"
+import { QRCodeElementType } from "projects/angularx-qrcode/src/public-api"
 import { QRCodeErrorCorrectionLevel } from "qrcode"
-import {
-  QRCodeElementType,
-} from "dist/angularx-qrcode"
 
 type ListType = { title: string; val: number }[]
 
@@ -13,7 +11,44 @@ type ListType = { title: string; val: number }[]
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  listofQr = ["1", "2", "3"]
+  @ViewChild("parent") parent: any
+  familiesList = [
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1136",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1137",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1138",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1139",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1140",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1141",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1142",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1143",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1144",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1145",
+    },
+    {
+      serialNumber: "CBPF-TUR-23-S-NGO-26777-1146",
+    },
+  ]
   public initial_state = {
     allowEmptyString: true,
     alt: "A custom alt attribute",
@@ -27,7 +62,7 @@ export class AppComponent {
     imageHeight: 75,
     imageWidth: 75,
     margin: 4,
-    qrdata: "https://github.com/Cordobo/angularx-qrcode",
+    qrdata: "CBPF-TUR-23-S-NGO-26777-0",
     scale: 1,
     version: undefined,
     title: "A custom title attribute",
@@ -37,7 +72,6 @@ export class AppComponent {
   public data_model = {
     ...this.initial_state,
   }
-
   public allowEmptyString: boolean
   public alt: string
   public ariaLabel: string
@@ -74,7 +108,7 @@ export class AppComponent {
     this.showA11y = true
     this.showColors = true
     this.showCss = true
-    this.showImage = true
+    this.showImage = false
 
     this.allowEmptyString = this.data_model.allowEmptyString
     this.alt = this.data_model.alt
@@ -118,6 +152,30 @@ export class AppComponent {
       { title: "10 (Default)", val: 10 },
     ]
   }
+  ngOnInit(): void {
+    let index = 0
+    if (index < this.familiesList.length) {
+      setInterval(() => {
+        this.qrdata = `${this.familiesList[index].serialNumber}`
+        //this.qrdata = `${this.familiesList[index].serialNumber}`
+        setTimeout(() => {
+          this.saveAsImage(
+            this.parent,
+            this.familiesList[index - 1].serialNumber
+          )
+        }, 1000)
+        index++
+      }, 3000)
+    }
+
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    /*for (let index = 1; index < 949; index++) {
+      setTimeout(() => {
+        this.qrdata = `CBPF-TUR-23-S-NGO-26777-${index}`
+        this.saveAsImage(this.parent, this.qrdata)
+      }, 9000)
+    }*/
+  }
 
   // Change value programatically
   changeMargin(newValue: number): void {
@@ -145,7 +203,7 @@ export class AppComponent {
     this.setA11yVisibility(true)
     this.setColorsVisibility(true)
     this.setCssVisibility(true)
-    this.setImageVisibility(true)
+    this.setImageVisibility(false)
 
     this._snackBar.open("All values resetted", "close")
   }
@@ -183,7 +241,7 @@ export class AppComponent {
     this.qrCodeSrc = url
   }
 
-  saveAsImage(parent: any) {
+  saveAsImage(parent: any, nameofFile: string) {
     let parentElement = null
 
     if (this.elementType === "canvas") {
@@ -209,7 +267,7 @@ export class AppComponent {
       const link = document.createElement("a")
       link.href = url
       // name of the file
-      link.download = "Qrcode"
+      link.download = nameofFile
       link.click()
     }
   }
